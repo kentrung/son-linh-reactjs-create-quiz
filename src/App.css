@@ -1,0 +1,144 @@
+body {
+  background: #f4f7fc;
+  font-family: 'Segoe UI', system-ui, Roboto, sans-serif;
+}
+
+.quiz-builder-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: start;
+}
+
+.feature-bullets {
+  background: white;
+  border-radius: 24px;
+  padding: 1.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  border-left: 6px solid #0d6efd;
+}
+
+.feature-bullets h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0a58ca;
+  margin-bottom: 0.75rem;
+}
+
+.feature-bullets ul {
+  margin-bottom: 0;
+  padding-left: 1.2rem;
+}
+
+.feature-bullets li {
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+.quiz-card {
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  padding: 1.8rem 1.5rem;
+  margin-bottom: 2rem;
+  transition: 0.2s;
+}
+
+.question-card {
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  transition: all 0.2s;
+}
+
+.question-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 15px;
+  margin-bottom: 1.2rem;
+}
+
+.question-text-input {
+  flex: 2;
+  font-weight: 600;
+  border: 1px solid #ced4da;
+  border-radius: 60px;
+  padding: 0.55rem 1.2rem;
+  font-size: 1rem;
+  background-color: #fefefe;
+  min-width: 0;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f9fafb;
+  padding: 0 4px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: 0.1s;
+  border: 1px solid #edf2f7;
+}
+
+.option-text {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.option-text:focus {
+  outline: none;
+}
+
+.correct-flag {
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.delete-option-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-size: 1.2rem;
+  transition: 0.2s;
+  width: 32px;
+  border-radius: 50%;
+}
+
+.delete-option-btn:hover {
+  background: #ffe6e8;
+  color: #b91c2c;
+}
+
+.add-option-btn {
+  border-radius: 40px;
+  background: #f1f5f9;
+  border: 1px dashed #94a3b8;
+  color: #1e293b;
+  margin-top: 0.6rem;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.add-option-btn:hover {
+  background: #e6edf5;
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+.action-buttons-global {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}

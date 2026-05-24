@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Quiz Builder Pro | Tạo câu hỏi trắc nghiệm</title>
+    <!-- Bootstrap 5 CSS + Icons + Font Awesome (optional) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: #f4f7fc;
+            font-family: 'Segoe UI', system-ui, Roboto, sans-serif;
+        }
+
+        .quiz-builder-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            text-align: start;
+        }
+
+        .feature-bullets {
+            background: white;
+            border-radius: 24px;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border-left: 6px solid #0d6efd;
+        }
+
+        .feature-bullets h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0a58ca;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-bullets ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+        .feature-bullets li {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 2rem;
+            transition: 0.2s;
+        }
+
+        .question-card {
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+            transition: all 0.2s;
+        }
+
+        .question-header {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 15px;
+            margin-bottom: 1.2rem;
+        }
+
+        .question-text-input {
+            flex: 2;
+            font-weight: 600;
+            border: 1px solid #ced4da;
+            border-radius: 60px;
+            padding: 0.55rem 1.2rem;
+            font-size: 1rem;
+            background-color: #fefefe;
+            min-width: 0;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f9fafb;
+            padding: 0 4px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            transition: 0.1s;
+            border: 1px solid #edf2f7;
+        }
+
+        .option-text {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+        }
+
+        .option-text:focus {
+            outline: none;
+        }
+
+        .correct-flag {
+            min-width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .delete-option-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            width: 32px;
+            border-radius: 50%;
+        }
+
+        .delete-option-btn:hover {
+            background: #ffe6e8;
+            color: #b91c2c;
+        }
+
+        .add-option-btn {
+            border-radius: 40px;
+            background: #f1f5f9;
+            border: 1px dashed #94a3b8;
+            color: #1e293b;
+            margin-top: 0.6rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .add-option-btn:hover {
+            background: #e6edf5;
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        .action-buttons-global {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container quiz-builder-container">
+        <div class="quiz-card">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                <h3 class="mb-0 fw-bold"><i class="fas fa-pen-ruler me-2 text-primary"></i>Trình tạo Quiz</h3>
+                <div class="action-buttons-global">
+                    <button id="add-question-btn" class="btn btn-outline-primary rounded-pill px-4 py-2">
+                        <i class="fas fa-plus-circle me-1"></i>Thêm câu hỏi
+                    </button>
+                </div>
+            </div>
+            <div id="questions-container">
+                <!-- Toàn bộ câu hỏi sẽ được render động bằng JS -->
+            </div>
+
+            <!-- Nút thêm câu hỏi & delete quiz -->
+
+        </div>
+        <div class="feature-bullets">
+            <h3><i class="fas fa-list-check me-2"></i>Chức năng của ứng dụng tạo Quiz</h3>
+            <ul>
+                <li><strong>Tạo câu hỏi đa dạng</strong> – Hỗ trợ câu hỏi <strong>Single choice</strong> (chọn một đáp
+                    án đúng) và <strong>Multiple choice</strong> (chọn nhiều đáp án đúng).</li>
+                <li><strong>Thêm / Xóa câu hỏi linh hoạt</strong> – Nút <strong>+ Add question</strong> để thêm câu hỏi
+                    mới, mỗi câu hỏi có nút xóa riêng.</li>
+                <li><strong>Quản lý tùy chọn (options) cho mỗi câu hỏi</strong> – Mỗi câu hỏi có nút <strong>“+ Add
+                        option”</strong> để thêm lựa chọn, kèm nút xóa từng option.</li>
+                <li><strong>Xác định đáp án đúng trực quan</strong> – Với single choice: hiển thị radio để đánh dấu
+                    <strong>1 đáp án đúng</strong>. Với multiple choice: dùng checkbox, cho phép chọn <strong>nhiều đáp
+                        án đúng</strong>.
+                </li>
+                <li><strong>Sửa nội dung câu hỏi & lựa chọn</strong> – Ô nhập văn bản cho phép chỉnh sửa câu hỏi và từng
+                    option một cách dễ dàng.</li>
+                <li><strong>Thay đổi loại câu hỏi bất kỳ lúc nào</strong> – Chuyển đổi giữa single/multiple choice, dữ
+                    liệu đáp án đúng được chuyển đổi thông minh.</li>
+                <li><strong>Giao diện Bootstrap 5 hiện đại, responsive</strong> – Dễ dùng trên mọi thiết bị, tương tác
+                    mượt mà.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Cấu trúc mỗi question: id, text, type ("single" hoặc "multiple"), options: [ { id, text, isCorrect } ]
+        let quizData = {
+            questions: [
+                {
+                    id: "q1",
+                    text: "Công ty nào to nhất thế giới?",
+                    type: "single",
+                    options: [
+                        { id: "q1_opt1", text: "Google", isCorrect: false },
+                        { id: "q1_opt2", text: "Facebook", isCorrect: true },
+                        { id: "q1_opt3", text: "Amazon", isCorrect: false }
+                    ]
+                },
+                {
+                    id: "q2",
+                    text: "Những công ty nào là của Việt Nam?",
+                    type: "multiple",
+                    options: [
+                        { id: "q2_opt1", text: "Google", isCorrect: false },
+                        { id: "q2_opt2", text: "Facebook", isCorrect: false },
+                        { id: "q2_opt3", text: "Viettel", isCorrect: true },
+                        { id: "q2_opt4", text: "FPT", isCorrect: true }
+                    ]
+                }
+            ]
+        };
+
+        // Helper tạo id ngẫu nhiên
+        function generateId(prefix = "id") {
+            return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+        }
+
+        // Lưu toàn bộ dữ liệu vào localStorage (optional) nhưng không bắt buộc, nhưng để giữ trạng thái?
+        // Chúng ta sẽ dùng biến toàn cục và cập nhật trực tiếp.
+
+        // Hàm render lại toàn bộ giao diện (chỉ gọi khi cấu trúc thay đổi: thêm/xoá question, thêm/xoá option, thay đổi type)
+        // Đối với các thay đổi text input (câu hỏi, option text) và thay đổi correct (radio/checkbox) ta xử lý bằng sự kiện trực tiếp
+        // mà không re-render toàn bộ để tránh mất focus.
+        let isRendering = false;
+
+        function renderFullQuiz() {
+            if (isRendering) return;
+            isRendering = true;
+            const container = document.getElementById("questions-container");
+            if (!container) return;
+
+            if (!quizData.questions.length) {
+                container.innerHTML = `
+                <div class="alert alert-light text-center border rounded-4 p-5 my-3">
+                    <i class="fas fa-clipboard-list fa-2x mb-3 text-secondary"></i>
+                    <h5 class="fw-normal">Chưa có câu hỏi nào</h5>
+                    <p class="text-muted">Nhấn nút <strong>+ Add question</strong> để bắt đầu tạo quiz.</p>
+                </div>
+            `;
+                isRendering = false;
+                return;
+            }
+
+            let html = '';
+            quizData.questions.forEach((question, idx) => {
+                // Xác định loại hiển thị correct control
+                const isSingle = question.type === 'single';
+                const correctControlType = isSingle ? 'radio' : 'checkbox';
+                const groupName = `correct_${question.id}`;
+
+                html += `
+                <div class="question-card" data-question-id="${question.id}">
+                    <div class="question-header">
+                        <input type="text" class="form-control question-text-input" value="${escapeHtml(question.text)}" placeholder="Nhập câu hỏi..." data-field="question-text" data-qid="${question.id}">
+                        <select class="form-select question-type-select" data-field="question-type" data-qid="${question.id}">
+                            <option value="single" ${question.type === 'single' ? 'selected' : ''}>Một đáp án đúng</option>
+                            <option value="multiple" ${question.type === 'multiple' ? 'selected' : ''}>Nhiều đáp án đúng</option>
+                        </select>
+                        <button class="btn btn-outline-danger" data-action="delete-question" data-qid="${question.id}">
+                            <i class="fas fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div class="options-list mt-3" data-options-container="${question.id}">
+            `;
+                // Duyệt từng option
+                question.options.forEach((opt, optIdx) => {
+                    const correctChecked = opt.isCorrect ? 'checked' : '';
+                    html += `
+                    <div class="option-item" data-option-id="${opt.id}" data-qid="${question.id}">
+                        <input type="text" class="form-control option-text" value="${escapeHtml(opt.text)}" placeholder="Nhập lựa chọn..." data-opt-id="${opt.id}" data-qid="${question.id}" data-field="option-text">
+                        <div class="correct-flag">
+                            <input type="${correctControlType}" name="${groupName}" class="correct-input" data-opt-id="${opt.id}" data-qid="${question.id}" data-type="${question.type}" ${correctChecked}>
+                            <span class="small text-secondary">Đúng</span>
+                        </div>
+                        <button class="delete-option-btn" data-action="delete-option" data-opt-id="${opt.id}" data-qid="${question.id}">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                `;
+                });
+                html += `
+                    </div>
+                    <button class="btn add-option-btn w-100 mt-2 py-2" data-action="add-option" data-qid="${question.id}">
+                        <i class="fas fa-plus me-1"></i>Thêm lựa chọn
+                    </button>
+                </div>
+            `;
+            });
+            container.innerHTML = html;
+
+            // Sau khi render, gắn lại event listeners cho các thành phần động (các sự kiện không bị re-render mỗi lần gõ)
+            attachDynamicEvents();
+            isRendering = false;
+        }
+
+        // Hàm gắn sự kiện cho các thành phần (chạy sau mỗi lần renderFullQuiz, và cũng có thể gắn cho lần đầu)
+        function attachDynamicEvents() {
+            // 1. Xóa câu hỏi
+            document.querySelectorAll('[data-action="delete-question"]').forEach(btn => {
+                btn.removeEventListener('click', handleDeleteQuestion);
+                btn.addEventListener('click', handleDeleteQuestion);
+            });
+            // 2. Xóa option
+            document.querySelectorAll('[data-action="delete-option"]').forEach(btn => {
+                btn.removeEventListener('click', handleDeleteOption);
+                btn.addEventListener('click', handleDeleteOption);
+            });
+            // 3. Thêm option
+            document.querySelectorAll('[data-action="add-option"]').forEach(btn => {
+                btn.removeEventListener('click', handleAddOption);
+                btn.addEventListener('click', handleAddOption);
+            });
+            // 4. Thay đổi text câu hỏi (input) -> cập nhật model, không re-render
+            document.querySelectorAll('.question-text-input').forEach(input => {
+                input.removeEventListener('change', handleQuestionTextChange);
+                input.addEventListener('change', handleQuestionTextChange);
+            });
+            // 5. Thay đổi loại câu hỏi (select) -> cập nhật model & re-render vì cấu trúc thay đổi
+            document.querySelectorAll('.question-type-select').forEach(select => {
+                select.removeEventListener('change', handleQuestionTypeChange);
+                select.addEventListener('change', handleQuestionTypeChange);
+            });
+            // 6. Thay đổi text option (input) -> cập nhật model
+            document.querySelectorAll('.option-text').forEach(inp => {
+                inp.removeEventListener('change', handleOptionTextChange);
+                inp.addEventListener('change', handleOptionTextChange);
+            });
+            // 7. Thay đổi correct (radio/checkbox)
+            document.querySelectorAll('.correct-input').forEach(cb => {
+                cb.removeEventListener('change', handleCorrectChange);
+                cb.addEventListener('change', handleCorrectChange);
+            });
+        }
+
+        // ----- Event handlers -----
+        function handleDeleteQuestion(e) {
+            const btn = e.currentTarget;
+            const qid = btn.getAttribute('data-qid');
+            if (qid) {
+                quizData.questions = quizData.questions.filter(q => q.id !== qid);
+                renderFullQuiz();
+            }
+        }
+
+        function handleDeleteOption(e) {
+            const btn = e.currentTarget;
+            const qid = btn.getAttribute('data-qid');
+            const optId = btn.getAttribute('data-opt-id');
+            const question = quizData.questions.find(q => q.id === qid);
+            if (question) {
+                question.options = question.options.filter(opt => opt.id !== optId);
+                // Đảm bảo nếu không còn option nào, thêm mặc định 1 option cho dễ dùng
+                if (question.options.length === 0) {
+                    question.options.push({ id: generateId('opt'), text: "Lựa chọn mới", isCorrect: false });
+                }
+                renderFullQuiz();
+            }
+        }
+
+        function handleAddOption(e) {
+            const btn = e.currentTarget;
+            const qid = btn.getAttribute('data-qid');
+            const question = quizData.questions.find(q => q.id === qid);
+            if (question) {
+                const newOptId = generateId('opt');
+                question.options.push({
+                    id: newOptId,
+                    text: "Lựa chọn mới",
+                    isCorrect: false
+                });
+                renderFullQuiz();  // render lại để hiển thị option mới
+            }
+        }
+
+        function handleQuestionTextChange(e) {
+            const input = e.currentTarget;
+            const qid = input.getAttribute('data-qid');
+            const newText = input.value;
+            const question = quizData.questions.find(q => q.id === qid);
+            if (question) {
+                question.text = newText;
+            }
+            // không cần render lại, chỉ cập nhật model
+        }
+
+        function handleQuestionTypeChange(e) {
+            const select = e.currentTarget;
+            const qid = select.getAttribute('data-qid');
+            const newType = select.value;
+            const question = quizData.questions.find(q => q.id === qid);
+            if (question && newType !== question.type) {
+                const oldType = question.type;
+                question.type = newType;
+                // Chuyển đổi logic đáp án đúng phù hợp
+                if (newType === 'single' && oldType === 'multiple') {
+                    // multiple -> single: chỉ giữ lại tối đa 1 đáp án đúng (ưu tiên cái đầu tiên đang đúng)
+                    const existingCorrectIndices = [];
+                    question.options.forEach((opt, idx) => {
+                        if (opt.isCorrect) existingCorrectIndices.push(idx);
+                    });
+                    if (existingCorrectIndices.length > 0) {
+                        // set tất cả sai, chỉ đặt đúng cho cái đầu tiên
+                        question.options.forEach(opt => opt.isCorrect = false);
+                        question.options[existingCorrectIndices[0]].isCorrect = true;
+                    } else {
+                        // không có đáp án đúng nào, không tự thêm
+                    }
+                } else if (newType === 'multiple' && oldType === 'single') {
+                    // single -> multiple: giữ nguyên trạng (nếu có đúng thì vẫn đúng, có thể nhiều hơn)
+                    // không cần thay đổi gì thêm
+                }
+                renderFullQuiz(); // cần re-render để thay đổi radio/checkbox layout
+            } else if (question) {
+                // no change but just in case
+            }
+        }
+
+        function handleOptionTextChange(e) {
+            const input = e.currentTarget;
+            const optId = input.getAttribute('data-opt-id');
+            const qid = input.getAttribute('data-qid');
+            const newText = input.value;
+            const question = quizData.questions.find(q => q.id === qid);
+            if (question) {
+                const option = question.options.find(opt => opt.id === optId);
+                if (option) {
+                    option.text = newText;
+                }
+            }
+            // model đã cập nhật, không cần render lại
+        }
+
+        function handleCorrectChange(e) {
+            const input = e.currentTarget;
+            const optId = input.getAttribute('data-opt-id');
+            const qid = input.getAttribute('data-qid');
+            const questionType = input.getAttribute('data-type'); // single/multiple lúc render
+            const isChecked = input.checked;
+            const question = quizData.questions.find(q => q.id === qid);
+            if (!question) return;
+
+            const targetOption = question.options.find(opt => opt.id === optId);
+            if (!targetOption) return;
+
+            if (question.type === 'single') {
+                // Nếu là single choice: khi chọn radio thì set tất cả options sai và chỉ cái này true
+                if (isChecked) {
+                    question.options.forEach(opt => {
+                        opt.isCorrect = false;
+                    });
+                    targetOption.isCorrect = true;
+                    // Cập nhật trạng thái checked cho tất cả radio cùng nhóm trong DOM (đồng bộ UI mà không re-render)
+                    // Lấy toàn bộ radio có cùng name trong question này
+                    const groupName = input.getAttribute('name');
+                    if (groupName) {
+                        document.querySelectorAll(`.correct-input[name="${groupName}"]`).forEach(radio => {
+                            if (radio !== input) radio.checked = false;
+                        });
+                    }
+                } else {
+                    // Trường hợp bỏ chọn radio trong single về cơ bản không nên xảy ra vì radio không tự bỏ, 
+                    // nhưng nếu có logic nào can thiệp, nếu isChecked false thì không làm gì, giữ model
+                    if (!isChecked && targetOption.isCorrect) {
+                        // Nếu bỏ chọn đúng duy nhất, ta set không có đáp án đúng
+                        targetOption.isCorrect = false;
+                    }
+                }
+            }
+            else if (question.type === 'multiple') {
+                // multiple: toggle trực tiếp
+                targetOption.isCorrect = isChecked;
+                // Không cần can thiệp DOM khác vì checkbox hoạt động độc lập
+            }
+            // Sau khi cập nhật model, có thể không cần re-render, nhưng để đồng bộ dữ liệu hiển thị future re-render ok.
+            // Đối với single, việc thay đổi đã được đồng bộ UI ở trên.
+        }
+
+        // Thêm câu hỏi mới
+        function addNewQuestion() {
+            const newId = generateId('q');
+            const defaultOptions = [
+                { id: generateId('opt'), text: "Đáp án A", isCorrect: false },
+                { id: generateId('opt'), text: "Đáp án B", isCorrect: false }
+            ];
+            const newQuestion = {
+                id: newId,
+                text: "Câu hỏi mới",
+                type: "single",
+                options: defaultOptions
+            };
+            quizData.questions.push(newQuestion);
+            renderFullQuiz();
+            // Cuộn nhẹ tới câu hỏi mới (cải thiện UX)
+            setTimeout(() => {
+                const newCard = document.querySelector(`.question-card[data-question-id="${newId}"]`);
+                if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        // Helper escapeHtml
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+                return c;
+            });
+        }
+
+        // Khởi tạo & gắn sự kiện toàn cục
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFullQuiz();
+            const addBtn = document.getElementById('add-question-btn');
+            if (addBtn) addBtn.addEventListener('click', addNewQuestion);
+        });
+
+        // Đồng bộ dữ liệu mỗi khi có thao tác render lại; một lần nữa đảm bảo event binding
+        // Khi các nút thêm xoá cần sync
+    </script>
+</body>
+
+</html>
