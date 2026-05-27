@@ -1,76 +1,18 @@
+## Bài toán
+- Hỗ trợ câu hỏi dạng một đáp án đúng và dạng nhiều đáp án đúng.
+- Thêm / Xóa câu hỏi linh hoạt
+- Thêm câu hỏi mới, mỗi câu hỏi có nút xóa riêng.
+- Quản lý các lựa chọn cho mỗi câu hỏi
+– Mỗi câu hỏi có nút "+ Thêm lựa chọn" để thêm lựa chọn, kèm nút xóa từng option.
+- Xác định đáp án đúng trực quan
+– Với single choice: hiển thị radio để đánh dấu 1 đáp án đúng.
+- Với multiple choice: dùng checkbox, cho phép chọn nhiều đáp án đúng.
+- Sửa nội dung câu hỏi & lựa chọn – Ô nhập văn bản cho phép chỉnh sửa câu hỏi và từng option một cách dễ dàng.
+- Thay đổi loại câu hỏi bất kỳ lúc nào – Chuyển đổi giữa single/multiple choice, dữ liệu đáp án đúng được chuyển đổi thông minh.
+
+## Minh họa
 <img width="1165" height="818" alt="image" src="https://github.com/user-attachments/assets/c8b81a0a-1929-4a26-a6de-fb9a27bf0ac6" />
 
+## Demo
+https://kentrung.github.io/son-linh-reactjs-create-quiz/
 
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
